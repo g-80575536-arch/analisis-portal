@@ -34,12 +34,12 @@
                         }
                     },
                     boxShadow: {
-                        'neon-1': '0 0 15px rgba(30, 136, 229, 0.5)',
-                        'neon-2': '0 0 15px rgba(142, 36, 170, 0.5)',
-                        'neon-3': '0 0 15px rgba(0, 137, 123, 0.5)',
-                        'neon-4': '0 0 15px rgba(251, 192, 45, 0.5)',
-                        'neon-5': '0 0 15px rgba(229, 57, 53, 0.5)',
-                        'neon-6': '0 0 15px rgba(21, 101, 192, 0.5)',
+                        'neon-1': '0 0 20px rgba(30, 136, 229, 0.4)',
+                        'neon-2': '0 0 20px rgba(142, 36, 170, 0.4)',
+                        'neon-3': '0 0 20px rgba(0, 137, 123, 0.4)',
+                        'neon-4': '0 0 20px rgba(251, 192, 45, 0.4)',
+                        'neon-5': '0 0 20px rgba(229, 57, 53, 0.4)',
+                        'neon-6': '0 0 20px rgba(21, 101, 192, 0.4)',
                     }
                 }
             }
@@ -48,7 +48,7 @@
 
     <style>
         body {
-            background-color: #050510; /* Latar gelap luar poster */
+            background-color: #030308;
             color: #ffffff;
             margin: 0;
             padding: 0;
@@ -59,23 +59,23 @@
             min-height: 100vh;
         }
 
-        /* Container Utama format 16:9 */
+        /* Latar Belakang Infografik */
         .poster-container {
             width: 100%;
             max-width: 1920px;
             aspect-ratio: 16 / 9;
             background-color: #0a0a1a;
             background-image: 
-                radial-gradient(circle at 15% 50%, rgba(30, 136, 229, 0.08), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(142, 36, 170, 0.08), transparent 25%);
+                radial-gradient(circle at 10% 20%, rgba(30, 136, 229, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(142, 36, 170, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.02) 0%, transparent 60%);
             display: flex;
             flex-direction: column;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 0 40px rgba(0,0,0,0.8);
+            box-shadow: 0 0 50px rgba(0,0,0,0.9);
         }
 
-        /* Pada skrin kecil, batalkan format 16:9 supaya boleh skrol */
         @media (max-width: 1280px) {
             body {
                 align-items: flex-start;
@@ -87,235 +87,408 @@
             }
         }
 
+        /* Bebola Cahaya Animasi (Floating Orbs) */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.4;
+            animation: float 20s infinite ease-in-out alternate;
+            z-index: 0;
+        }
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 50px) scale(1.2); }
+        }
+
+        /* Kad Utama */
         .glass-card {
-            background: rgba(15, 20, 40, 0.6);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: rgba(20, 25, 45, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 0.75rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 1rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             flex-direction: column;
-        }
-
-        .glass-card:hover {
-            transform: translateY(-5px);
+            position: relative;
+            transform-style: preserve-3d;
             z-index: 10;
         }
+        
+        /* Kesan fokus apabila berinteraksi dari bawah */
+        .glass-card.dimmed {
+            opacity: 0.3;
+            transform: scale(0.95);
+            filter: grayscale(80%);
+        }
+        .glass-card.highlighted {
+            transform: translateY(-10px) scale(1.05);
+            z-index: 20;
+            border-color: rgba(255,255,255,0.3);
+        }
 
+        /* Elemen UI dalam Kad */
         .step-number {
             font-family: 'Poppins', sans-serif;
-            font-weight: 800;
+            font-weight: 900;
+        }
+        .card-content-3d {
+            transform: translateZ(20px); /* 3D pop effect */
+        }
+        .data-pill {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
         .gradient-title {
-            background: linear-gradient(90deg, #4fc3f7, #e1bee7);
+            background: linear-gradient(90deg, #4fc3f7, #e1bee7, #64ffda);
+            background-size: 200% auto;
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            animation: shine 4s linear infinite;
+        }
+        @keyframes shine {
+            to { background-position: 200% center; }
         }
 
-        /* Custom scrollbar kecil untuk dalam kad */
-        ::-webkit-scrollbar {
-            width: 4px;
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.4); }
+
+        /* Garisan Penghubung Tengah (Desktop) */
+        .connection-line {
+            position: absolute;
+            top: 50%;
+            left: 5%;
+            width: 90%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1) 10%, rgba(255,255,255,0.1) 90%, transparent);
+            z-index: 1;
+            transform: translateY(-50%);
         }
-        ::-webkit-scrollbar-track {
-            background: rgba(0,0,0,0.1); 
+        .flow-particle {
+            position: absolute;
+            top: -2px;
+            left: 0;
+            width: 6px;
+            height: 6px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #fff;
+            animation: flowMove 8s linear infinite;
         }
-        ::-webkit-scrollbar-thumb {
-            background: #444; 
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #666; 
+        @keyframes flowMove {
+            0% { left: 0; opacity: 0; }
+            5% { opacity: 1; }
+            95% { opacity: 1; }
+            100% { left: 100%; opacity: 0; }
         }
     </style>
 </head>
 <body class="antialiased font-sans">
 
     <!-- Wrapper 16:9 -->
-    <div class="poster-container p-4 xl:p-6 2xl:p-8">
+    <div class="poster-container p-4 xl:p-6 2xl:p-8" id="posterArea">
+        
+        <!-- Orbs Latar Belakang -->
+        <div class="orb bg-assure-1 w-[300px] h-[300px] top-[-50px] left-[-50px]"></div>
+        <div class="orb bg-assure-4 w-[200px] h-[200px] bottom-[10%] left-[40%] animation-delay-2000"></div>
+        <div class="orb bg-assure-2 w-[350px] h-[350px] top-[20%] right-[-100px] animation-delay-4000"></div>
         
         <!-- HEADER (Top Section) -->
-        <header class="w-full text-center relative z-10 mb-4 xl:mb-6 shrink-0">
+        <header class="w-full text-center relative z-20 mb-4 xl:mb-6 shrink-0 card-content-3d">
             <div class="flex flex-col lg:flex-row justify-between items-center lg:items-start gap-4 lg:gap-0">
                 <div class="text-left w-1/4 hidden lg:block"></div>
                 
                 <div class="flex-1">
-                    <div class="inline-block bg-blue-900/40 border border-blue-500/30 rounded-full px-4 py-1 mb-2">
-                        <p class="text-blue-200 text-[10px] xl:text-xs font-semibold tracking-wider uppercase">
+                    <div class="inline-block bg-blue-900/30 border border-blue-400/30 rounded-full px-5 py-1.5 mb-3 backdrop-blur-md">
+                        <p class="text-blue-200 text-[10px] xl:text-xs font-bold tracking-widest uppercase">
                             EDUP 2112 Teknologi Multimedia Pendidikan Seni Visual (PSV)
                         </p>
                     </div>
-                    <h1 class="text-xl md:text-3xl xl:text-4xl 2xl:text-5xl font-heading font-bold mb-1 leading-tight uppercase">
+                    <h1 class="text-xl md:text-3xl xl:text-4xl 2xl:text-5xl font-heading font-black mb-1 leading-tight uppercase tracking-wide drop-shadow-lg">
                         Analisis Portal Pembelajaran PSV
                     </h1>
-                    <h2 class="text-lg md:text-2xl xl:text-3xl 2xl:text-4xl font-heading font-bold mb-2 uppercase">
-                        Menggunakan <span class="gradient-title">Model ASSURE</span>
+                    <h2 class="text-lg md:text-2xl xl:text-3xl 2xl:text-4xl font-heading font-bold mb-3 uppercase">
+                        Menggunakan <span class="gradient-title drop-shadow-md">Model ASSURE</span>
                     </h2>
-                    <p class="text-[11px] xl:text-sm text-gray-300 font-light italic">
+                    <p class="text-[11px] xl:text-sm text-gray-300 font-medium italic bg-black/40 inline-block px-4 py-1 rounded-lg">
                         "Pelaksanaan Komponen ASSURE dalam Portal Pembelajaran Pendidikan Seni Visual Tahun 2."
                     </p>
                 </div>
                 
                 <div class="text-right w-full lg:w-1/4 flex justify-center lg:justify-end items-start mt-2 lg:mt-0">
-                    <a href="https://g-80575536-arch.github.io/portal-psv/" target="_blank" class="px-6 py-2 xl:py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg shadow-neon-1 transition-all text-xs xl:text-sm flex items-center gap-2">
-                        <i class="fas fa-play-circle"></i> Buka Portal PSV
+                    <a href="https://g-80575536-arch.github.io/portal-psv/" target="_blank" class="px-6 py-2.5 xl:py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-xl shadow-[0_0_20px_rgba(79,70,229,0.5)] hover:shadow-[0_0_30px_rgba(79,70,229,0.8)] transition-all transform hover:scale-105 text-xs xl:text-sm flex items-center gap-2">
+                        <i class="fas fa-rocket"></i> Buka Portal PSV
                     </a>
                 </div>
             </div>
         </header>
 
         <!-- MAIN CARDS (Middle Section) -->
-        <main class="flex-1 w-full relative z-10 flex flex-col justify-center min-h-0">
-            <!-- Gunakan grid-cols-6 sentiasa pada skrin besar untuk muat poster -->
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-3 xl:gap-4 h-full">
-                
-                <!-- Arrow background connect (Desktop) -->
-                <div class="hidden xl:block absolute top-1/2 left-0 w-full h-0.5 bg-gray-700/50 -z-10 translate-y-[-50%]"></div>
+        <main class="flex-1 w-full relative z-20 flex flex-col justify-center min-h-0 perspective-1000">
+            
+            <!-- Connection Line (Desktop) -->
+            <div class="hidden xl:block connection-line">
+                <div class="flow-particle"></div>
+            </div>
+
+            <!-- Grid Kad -->
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-3 xl:gap-4 h-full relative" id="cardsContainer">
 
                 <!-- Kad 1: Analyze -->
-                <div class="glass-card h-full hover:shadow-neon-1 border-t-4 border-t-assure-1">
-                    <div class="p-3 xl:p-4 flex-1 flex flex-col min-h-0">
+                <div class="glass-card card-1 hover:shadow-neon-1" data-card="1">
+                    <div class="p-3 xl:p-4 flex-1 flex flex-col min-h-0 relative z-10">
                         <div class="flex items-center gap-2 mb-2">
                             <div class="w-8 h-8 xl:w-10 xl:h-10 rounded-full bg-assure-1 flex items-center justify-center text-sm xl:text-lg step-number shadow-lg shrink-0">1</div>
-                            <h2 class="text-xs xl:text-sm 2xl:text-base font-heading font-bold leading-tight">A – ANALYZE<br><span class="text-[9px] xl:text-[10px] font-normal text-gray-300">LEARNERS</span></h2>
+                            <h2 class="text-xs xl:text-sm 2xl:text-base font-heading font-bold leading-tight">A – ANALYZE<br><span class="text-[8px] xl:text-[9px] font-normal text-gray-300 block mt-1 tracking-widest uppercase">Learners</span></h2>
                         </div>
-                        <div class="flex justify-center my-2 xl:my-4 shrink-0">
-                            <i class="fas fa-users-viewfinder text-3xl xl:text-4xl text-assure-1 opacity-80"></i>
+                        <div class="flex justify-center my-2 xl:my-4 shrink-0 hover:scale-110 transition-transform">
+                            <i class="fas fa-users-viewfinder text-3xl xl:text-4xl text-assure-1 opacity-80 filter drop-shadow-[0_0_8px_rgba(30,136,229,0.8)]"></i>
                         </div>
-                        <ul class="space-y-1.5 xl:space-y-2 text-[10px] xl:text-xs 2xl:text-sm text-gray-300 flex-1 overflow-y-auto pr-1">
-                            <li class="flex items-start gap-1.5"><i class="fas fa-check-circle text-assure-1 mt-0.5 shrink-0"></i><span>Rekaan mesra murid</span></li>
-                            <li class="flex items-start gap-1.5"><i class="fas fa-check-circle text-assure-1 mt-0.5 shrink-0"></i><span>Ikon besar & navigasi mudah</span></li>
-                            <li class="flex items-start gap-1.5"><i class="fas fa-check-circle text-assure-1 mt-0.5 shrink-0"></i><span>Audio & warna ceria</span></li>
-                            <li class="flex items-start gap-1.5"><i class="fas fa-check-circle text-assure-1 mt-0.5 shrink-0"></i><span>Sesuai murid Tahun 2</span></li>
-                        </ul>
+                        
+                        <!-- Data Blocks -->
+                        <div class="space-y-2 flex-1 overflow-y-auto pr-1">
+                            <div class="data-pill rounded-lg p-2 flex items-center gap-3">
+                                <i class="fas fa-child text-assure-1 text-sm"></i>
+                                <span class="text-[10px] xl:text-[11px] leading-tight">Sasaran murid <strong>Tahun 2</strong></span>
+                            </div>
+                            <div class="data-pill rounded-lg p-2 flex items-center gap-3">
+                                <i class="fas fa-mobile-screen text-assure-1 text-sm"></i>
+                                <span class="text-[10px] xl:text-[11px] leading-tight">Rekaan <strong>mesra pengguna</strong></span>
+                            </div>
+                            <div class="data-pill rounded-lg p-2 flex items-center gap-3">
+                                <i class="fas fa-icons text-assure-1 text-sm"></i>
+                                <span class="text-[10px] xl:text-[11px] leading-tight">Navigasi mudah & <strong>ikon besar</strong></span>
+                            </div>
+                            <div class="data-pill rounded-lg p-2 flex items-center gap-3">
+                                <i class="fas fa-palette text-assure-1 text-sm"></i>
+                                <span class="text-[10px] xl:text-[11px] leading-tight">Gaya <strong>audio & warna ceria</strong></span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="p-2 xl:p-3 mt-auto border-t border-gray-700/50">
-                        <a href="https://g-80575536-arch.github.io/portal-psv/" target="_blank" class="flex items-center justify-center gap-2 w-full py-1.5 bg-assure-1/20 hover:bg-assure-1/40 text-assure-1 rounded transition-colors text-[9px] xl:text-xs font-semibold border border-assure-1/30">
-                            <i class="fas fa-link"></i> KE PAUTAN (MUKA DEPAN)
+                    <!-- Pautan -->
+                    <div class="p-2 xl:p-3 mt-auto bg-black/30 border-t border-white/5 rounded-b-[15px] card-content-3d">
+                        <a href="https://g-80575536-arch.github.io/portal-psv/" target="_blank" class="flex items-center justify-between w-full px-3 py-2 bg-assure-1/10 hover:bg-assure-1/30 text-assure-1 rounded-lg transition-colors border border-assure-1/30 group/btn">
+                            <span class="text-[9px] xl:text-[10px] font-bold tracking-wide">MUKA DEPAN</span>
+                            <i class="fas fa-arrow-right text-[10px] group-hover/btn:translate-x-1 transition-transform"></i>
                         </a>
                     </div>
                 </div>
 
                 <!-- Kad 2: State -->
-                <div class="glass-card h-full hover:shadow-neon-2 border-t-4 border-t-assure-2">
-                    <div class="p-3 xl:p-4 flex-1 flex flex-col min-h-0">
+                <div class="glass-card card-2 hover:shadow-neon-2" data-card="2">
+                    <div class="p-3 xl:p-4 flex-1 flex flex-col min-h-0 relative z-10">
                         <div class="flex items-center gap-2 mb-2">
-                            <div class="w-8 h-8 xl:w-10 xl:h-10 rounded-full bg-assure-2 flex items-center justify-center text-sm xl:text-lg step-number shadow-lg shrink-0">2</div>
-                            <h2 class="text-xs xl:text-sm 2xl:text-base font-heading font-bold leading-tight">S – STATE<br><span class="text-[9px] xl:text-[10px] font-normal text-gray-300">OBJECTIVES</span></h2>
+                            <div class="w-8 h-8 xl:w-10 xl:h-10 rounded-full bg-assure-2 flex items-center justify-center text-sm xl:text-lg step-number shadow-lg shrink-0 pulse-glow">2</div>
+                            <h2 class="text-xs xl:text-sm 2xl:text-base font-heading font-bold leading-tight">S – STATE<br><span class="text-[8px] xl:text-[9px] font-normal text-gray-300 block mt-1 tracking-widest uppercase">Objectives</span></h2>
                         </div>
-                        <div class="flex justify-center my-2 xl:my-4 shrink-0">
-                            <i class="fas fa-bullseye text-3xl xl:text-4xl text-assure-2 opacity-80"></i>
+                        <div class="flex justify-center my-2 xl:my-4 shrink-0 hover:scale-110 transition-transform">
+                            <i class="fas fa-bullseye text-3xl xl:text-4xl text-assure-2 opacity-80 filter drop-shadow-[0_0_8px_rgba(142,36,170,0.8)]"></i>
                         </div>
-                        <ul class="space-y-1.5 xl:space-y-2 text-[10px] xl:text-xs 2xl:text-sm text-gray-300 flex-1 overflow-y-auto pr-1">
-                            <li class="flex items-start gap-1.5"><i class="fas fa-check-circle text-assure-2 mt-0.5 shrink-0"></i><span>Standard Kandungan</span></li>
-                            <li class="flex items-start gap-1.5"><i class="fas fa-check-circle text-assure-2 mt-0.5 shrink-0"></i><span>Standard Pembelajaran</span></li>
-                            <li class="flex items-start gap-1.5"><i class="fas fa-check-circle text-assure-2 mt-0.5 shrink-0"></i><span>Objektif PdPc</span></li>
-                            <li class="flex items-start gap-1.5"><i class="fas fa-check-circle text-assure-2 mt-0.5 shrink-0"></i><span>Kriteria Kejayaan</span></li>
-                            <li class="flex items-start gap-1.5"><i class="fas fa-check-circle text-assure-2 mt-0.5 shrink-0"></i><span>Murid tahu hasil</span></li>
-                        </ul>
+                        
+                        <!-- Data Blocks -->
+                        <div class="space-y-2 flex-1 overflow-y-auto pr-1">
+                            <div class="data-pill rounded-lg p-2 flex items-start gap-3">
+                                <i class="fas fa-book-open text-assure-2 mt-0.5 text-sm"></i>
+                                <span class="text-[10px] xl:text-[11px] leading-tight flex-1">Penjajaran <strong>Standard Kandungan & Pembelajaran</strong></span>
+                            </div>
+                            <div class="data-pill rounded-lg p-2 flex items-start gap-3">
+                                <i class="fas fa-list-check text-assure-2 mt-0.5 text-sm"></i>
+                                <span class="text-[10px] xl:text-[11px] leading-tight flex-1">Penetapan <strong>Objektif PdPc & Kriteria Kejayaan</strong></span>
+                            </div>
+                            <div class="data-pill rounded-lg p-2 flex items-start gap-3">
+                                <i class="fas fa-eye text-assure-2 mt-0.5 text-sm"></i>
+                                <span class="text-[10px] xl:text-[11px] leading-tight flex-1">Penerangan hasil dijangka</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="p-2 xl:p-3 mt-auto border-t border-gray-700/50">
-                        <a href="https://g-80575536-arch.github.io/portal-psv/#objektif" target="_blank" class="flex items-center justify-center gap-2 w-full py-1.5 bg-assure-2/20 hover:bg-assure-2/40 text-assure-2 rounded transition-colors text-[9px] xl:text-xs font-semibold border border-assure-2/30">
-                            <i class="fas fa-link"></i> KE PAUTAN (OBJEKTIF)
+                    <div class="p-2 xl:p-3 mt-auto bg-black/30 border-t border-white/5 rounded-b-[15px] card-content-3d">
+                        <a href="https://g-80575536-arch.github.io/portal-psv/#step-2" target="_blank" class="flex items-center justify-between w-full px-3 py-2 bg-assure-2/10 hover:bg-assure-2/30 text-assure-2 rounded-lg transition-colors border border-assure-2/30 group/btn">
+                            <span class="text-[9px] xl:text-[10px] font-bold tracking-wide">DSKP & OBJEKTIF</span>
+                            <i class="fas fa-arrow-right text-[10px] group-hover/btn:translate-x-1 transition-transform"></i>
                         </a>
                     </div>
                 </div>
 
                 <!-- Kad 3: Select -->
-                <div class="glass-card h-full hover:shadow-neon-3 border-t-4 border-t-assure-3">
-                    <div class="p-3 xl:p-4 flex-1 flex flex-col min-h-0">
+                <div class="glass-card card-3 hover:shadow-neon-3" data-card="3">
+                    <div class="p-3 xl:p-4 flex-1 flex flex-col min-h-0 relative z-10">
                         <div class="flex items-center gap-2 mb-2">
-                            <div class="w-8 h-8 xl:w-10 xl:h-10 rounded-full bg-assure-3 flex items-center justify-center text-sm xl:text-lg step-number shadow-lg shrink-0">3</div>
-                            <h2 class="text-xs xl:text-sm 2xl:text-base font-heading font-bold leading-tight">S – SELECT<br><span class="text-[8px] xl:text-[9px] font-normal text-gray-300 leading-none block mt-1">METHODS, MEDIA & MATERIALS</span></h2>
+                            <div class="w-8 h-8 xl:w-10 xl:h-10 rounded-full bg-assure-3 flex items-center justify-center text-sm xl:text-lg step-number shadow-lg shrink-0 pulse-glow">3</div>
+                            <h2 class="text-xs xl:text-sm 2xl:text-base font-heading font-bold leading-tight">S – SELECT<br><span class="text-[8px] xl:text-[9px] font-normal text-gray-300 block mt-1 tracking-widest uppercase">Methods & Media</span></h2>
                         </div>
-                        <div class="flex justify-center my-2 xl:my-4 shrink-0">
-                            <i class="fas fa-photo-video text-3xl xl:text-4xl text-assure-3 opacity-80"></i>
+                        <div class="flex justify-center my-2 xl:my-4 shrink-0 hover:scale-110 transition-transform">
+                            <i class="fas fa-photo-video text-3xl xl:text-4xl text-assure-3 opacity-80 filter drop-shadow-[0_0_8px_rgba(0,137,123,0.8)]"></i>
                         </div>
-                        <ul class="space-y-1.5 xl:space-y-2 text-[10px] xl:text-xs 2xl:text-sm text-gray-300 flex-1 overflow-y-auto pr-1">
-                            <li class="flex items-start gap-1.5"><i class="fas fa-check-circle text-assure-3 mt-0.5 shrink-0"></i><span>Media: Video, Audio, Infografik, Nota Interaktif</span></li>
-                            <li class="flex items-start gap-1.5"><i class="fas fa-check-circle text-assure-3 mt-0.5 shrink-0"></i><span>Kaedah: Video PdP, Jom Teroka, Kotak Misteri</span></li>
-                        </ul>
+                        
+                        <!-- Data Blocks -->
+                        <div class="space-y-2 flex-1 overflow-y-auto pr-1">
+                            <div class="data-pill rounded-lg p-2">
+                                <p class="text-[9px] text-gray-400 mb-1">PILIHAN MEDIA</p>
+                                <div class="flex gap-2 text-[10px] xl:text-[11px] text-gray-200 flex-wrap">
+                                    <span class="border border-white/10 bg-white/5 px-1.5 py-0.5 rounded">Video</span>
+                                    <span class="border border-white/10 bg-white/5 px-1.5 py-0.5 rounded">Audio</span>
+                                    <span class="border border-white/10 bg-white/5 px-1.5 py-0.5 rounded">Infografik</span>
+                                </div>
+                            </div>
+                            <div class="data-pill rounded-lg p-2">
+                                <p class="text-[9px] text-gray-400 mb-1">PILIHAN KAEDAH</p>
+                                <div class="flex gap-2 text-[10px] xl:text-[11px] text-gray-200 flex-wrap">
+                                    <span class="border border-white/10 px-1.5 py-0.5 rounded">PdP Digital</span>
+                                    <span class="border border-white/10 px-1.5 py-0.5 rounded">Penerokaan</span>
+                                    <span class="border border-white/10 px-1.5 py-0.5 rounded">Penyelesaian Masalah</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="p-2 xl:p-3 mt-auto border-t border-gray-700/50">
-                        <a href="https://g-80575536-arch.github.io/portal-psv/#menu-utama" target="_blank" class="flex items-center justify-center gap-2 w-full py-1.5 bg-assure-3/20 hover:bg-assure-3/40 text-assure-3 rounded transition-colors text-[9px] xl:text-xs font-semibold border border-assure-3/30">
-                            <i class="fas fa-link"></i> KE PAUTAN (PILIHAN MENU)
+                    <div class="p-2 xl:p-3 mt-auto bg-black/30 border-t border-white/5 rounded-b-[15px] card-content-3d">
+                        <a href="https://g-80575536-arch.github.io/portal-psv/#step-5" target="_blank" class="flex items-center justify-between w-full px-3 py-2 bg-assure-3/10 hover:bg-assure-3/30 text-assure-3 rounded-lg transition-colors border border-assure-3/30 group/btn">
+                            <span class="text-[9px] xl:text-[10px] font-bold tracking-wide">JOM TEROKA</span>
+                            <i class="fas fa-arrow-right text-[10px] group-hover/btn:translate-x-1 transition-transform"></i>
                         </a>
                     </div>
                 </div>
 
                 <!-- Kad 4: Utilize -->
-                <div class="glass-card h-full hover:shadow-neon-4 border-t-4 border-t-assure-4">
-                    <div class="p-3 xl:p-4 flex-1 flex flex-col min-h-0">
+                <div class="glass-card card-4 hover:shadow-neon-4" data-card="4">
+                    <div class="p-3 xl:p-4 flex-1 flex flex-col min-h-0 relative z-10">
                         <div class="flex items-center gap-2 mb-2">
-                            <div class="w-8 h-8 xl:w-10 xl:h-10 rounded-full bg-assure-4 flex items-center justify-center text-sm xl:text-lg step-number shadow-lg text-gray-900 shrink-0">4</div>
-                            <h2 class="text-xs xl:text-sm 2xl:text-base font-heading font-bold leading-tight text-assure-4">U – UTILIZE<br><span class="text-[8px] xl:text-[9px] font-normal text-gray-300 block mt-1">MEDIA & MATERIALS</span></h2>
+                            <div class="w-8 h-8 xl:w-10 xl:h-10 rounded-full bg-assure-4 flex items-center justify-center text-sm xl:text-lg step-number shadow-lg text-gray-900 shrink-0 pulse-glow">4</div>
+                            <h2 class="text-xs xl:text-sm 2xl:text-base font-heading font-bold leading-tight text-assure-4">U – UTILIZE<br><span class="text-[8px] xl:text-[9px] font-normal text-gray-300 block mt-1 tracking-widest uppercase">Media & Materials</span></h2>
                         </div>
-                        <div class="flex justify-center my-2 xl:my-4 shrink-0">
-                            <i class="fas fa-box-open text-3xl xl:text-4xl text-assure-4 opacity-80"></i>
+                        <div class="flex justify-center my-2 xl:my-4 shrink-0 hover:scale-110 transition-transform">
+                            <i class="fas fa-box-open text-3xl xl:text-4xl text-assure-4 opacity-80 filter drop-shadow-[0_0_8px_rgba(251,192,45,0.8)]"></i>
                         </div>
-                        <ul class="space-y-1.5 xl:space-y-2 text-[10px] xl:text-xs 2xl:text-sm text-gray-300 flex-1 overflow-y-auto pr-1">
-                            <li class="flex items-start gap-1.5"><i class="fas fa-check-circle text-assure-4 mt-0.5 shrink-0"></i><span>Utama & Objektif</span></li>
-                            <li class="flex items-start gap-1.5"><i class="fas fa-check-circle text-assure-4 mt-0.5 shrink-0"></i><span>Kotak Misteri & Cerita</span></li>
-                            <li class="flex items-start gap-1.5"><i class="fas fa-check-circle text-assure-4 mt-0.5 shrink-0"></i><span>Video PdP & Jom Teroka</span></li>
-                            <li class="flex items-start gap-1.5"><i class="fas fa-check-circle text-assure-4 mt-0.5 shrink-0"></i><span>Studio Lukis & Menguli</span></li>
-                            <li class="flex items-start gap-1.5"><i class="fas fa-check-circle text-assure-4 mt-0.5 shrink-0"></i><span>Refleksi, Kuiz, Galeri</span></li>
-                        </ul>
+                        
+                        <!-- Data Blocks -->
+                        <div class="space-y-1.5 flex-1 overflow-y-auto pr-1">
+                            <div class="data-pill rounded-lg px-2 py-1.5 flex items-center gap-2">
+                                <div class="w-1.5 h-1.5 rounded-full bg-assure-4"></div>
+                                <span class="text-[10px] xl:text-[11px] leading-tight">Kotak Misteri & Cerita</span>
+                            </div>
+                            <div class="data-pill rounded-lg px-2 py-1.5 flex items-center gap-2">
+                                <div class="w-1.5 h-1.5 rounded-full bg-assure-4"></div>
+                                <span class="text-[10px] xl:text-[11px] leading-tight">Video PdP & Jom Teroka</span>
+                            </div>
+                            <div class="data-pill rounded-lg px-2 py-1.5 flex items-center gap-2">
+                                <div class="w-1.5 h-1.5 rounded-full bg-assure-4"></div>
+                                <span class="text-[10px] xl:text-[11px] leading-tight">Studio Lukis & Menguli</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="p-2 xl:p-3 mt-auto border-t border-gray-700/50">
-                        <a href="https://g-80575536-arch.github.io/portal-psv/video.html" target="_blank" class="flex items-center justify-center gap-2 w-full py-1.5 bg-assure-4/20 hover:bg-assure-4/40 text-assure-4 rounded transition-colors text-[9px] xl:text-xs font-semibold border border-assure-4/30">
-                            <i class="fas fa-link"></i> KE PAUTAN (VIDEO & MEDIA)
+                    <div class="p-2 xl:p-3 mt-auto bg-black/30 border-t border-white/5 rounded-b-[15px] card-content-3d">
+                        <a href="https://g-80575536-arch.github.io/portal-psv/#step-6" target="_blank" class="flex items-center justify-between w-full px-3 py-2 bg-assure-4/10 hover:bg-assure-4/30 text-assure-4 rounded-lg transition-colors border border-assure-4/30 group/btn">
+                            <span class="text-[9px] xl:text-[10px] font-bold tracking-wide">VIDEO PDP</span>
+                            <i class="fas fa-arrow-right text-[10px] group-hover/btn:translate-x-1 transition-transform"></i>
                         </a>
                     </div>
                 </div>
 
-                <!-- Kad 5: Require -->
-                <div class="glass-card h-full hover:shadow-neon-5 border-t-4 border-t-assure-5">
-                    <div class="p-3 xl:p-4 flex-1 flex flex-col min-h-0">
+                <!-- Kad 5: Require (INTERAKTIF DATA PILLS) -->
+                <div class="glass-card card-5 hover:shadow-neon-5" data-card="5">
+                    <div class="p-3 xl:p-4 flex-1 flex flex-col min-h-0 relative z-10">
                         <div class="flex items-center gap-2 mb-2">
-                            <div class="w-8 h-8 xl:w-10 xl:h-10 rounded-full bg-assure-5 flex items-center justify-center text-sm xl:text-lg step-number shadow-lg shrink-0">5</div>
-                            <h2 class="text-xs xl:text-sm 2xl:text-base font-heading font-bold leading-tight">R – REQUIRE<br><span class="text-[8px] xl:text-[9px] font-normal text-gray-300 block mt-1">LEARNER PARTICIPATION</span></h2>
+                            <div class="w-8 h-8 xl:w-10 xl:h-10 rounded-full bg-assure-5 flex items-center justify-center text-sm xl:text-lg step-number shadow-lg shrink-0 pulse-glow">5</div>
+                            <h2 class="text-xs xl:text-sm 2xl:text-base font-heading font-bold leading-tight">R – REQUIRE<br><span class="text-[8px] xl:text-[9px] font-normal text-gray-300 block mt-1 tracking-widest uppercase">Learner Participation</span></h2>
                         </div>
-                        <div class="flex justify-center my-2 xl:my-4 shrink-0">
-                            <i class="fas fa-hand-sparkles text-3xl xl:text-4xl text-assure-5 opacity-80"></i>
+                        <div class="flex justify-center my-2 xl:my-4 shrink-0 hover:scale-110 transition-transform">
+                            <i class="fas fa-hand-sparkles text-3xl xl:text-4xl text-assure-5 opacity-80 filter drop-shadow-[0_0_8px_rgba(229,57,53,0.8)]"></i>
                         </div>
-                        <ul class="space-y-1.5 xl:space-y-2 text-[10px] xl:text-xs 2xl:text-sm text-gray-300 flex-1 overflow-y-auto pr-1">
-                            <li class="flex items-start gap-1.5"><i class="fas fa-check-circle text-assure-5 mt-0.5 shrink-0"></i><span>Studio Lukis (Melukis)</span></li>
-                            <li class="flex items-start gap-1.5"><i class="fas fa-check-circle text-assure-5 mt-0.5 shrink-0"></i><span>Mari Menguli (Karya)</span></li>
-                            <li class="flex items-start gap-1.5"><i class="fas fa-check-circle text-assure-5 mt-0.5 shrink-0"></i><span>Kuiz (Jawab kuiz)</span></li>
-                            <li class="flex items-start gap-1.5"><i class="fas fa-check-circle text-assure-5 mt-0.5 shrink-0"></i><span>Refleksi Kendiri</span></li>
-                            <li class="flex items-start gap-1.5"><i class="fas fa-check-circle text-assure-5 mt-0.5 shrink-0"></i><span>Galeri Murid (Hantar)</span></li>
-                        </ul>
+                        
+                        <!-- Data Blocks (Boleh Diklik) -->
+                        <div class="space-y-2 flex-1 overflow-y-auto pr-1">
+                            
+                            <!-- Karya Digital -> #step-7 (Studio & Galeri Seni) -->
+                            <a href="https://g-80575536-arch.github.io/portal-psv/#step-7" target="_blank" class="data-pill rounded-lg p-2 relative overflow-hidden group/pill block cursor-pointer transition-all hover:bg-assure-5/10 hover:border-assure-5/50">
+                                <div class="absolute left-0 top-0 bottom-0 w-1 bg-assure-5 transition-all group-hover/pill:w-full group-hover/pill:opacity-20"></div>
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-paint-brush text-assure-5 group-hover/pill:scale-110 transition-transform"></i>
+                                    <div>
+                                        <p class="text-[10px] xl:text-[11px] font-bold text-white relative z-10">Karya Digital</p>
+                                        <p class="text-[9px] text-gray-400 relative z-10 group-hover/pill:text-gray-200 transition-colors">Melukis di <strong>Studio Lukis</strong></p>
+                                    </div>
+                                    <i class="fas fa-external-link-alt text-[8px] text-assure-5/50 ml-auto mr-1 group-hover/pill:text-assure-5"></i>
+                                </div>
+                            </a>
+
+                            <!-- Manipulasi Fizikal -> #step-8 (Mari Menguli) -->
+                            <a href="https://g-80575536-arch.github.io/portal-psv/#step-8" target="_blank" class="data-pill rounded-lg p-2 relative overflow-hidden group/pill block cursor-pointer transition-all hover:bg-assure-5/10 hover:border-assure-5/50">
+                                <div class="absolute left-0 top-0 bottom-0 w-1 bg-assure-5 transition-all group-hover/pill:w-full group-hover/pill:opacity-20"></div>
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-hands text-assure-5 group-hover/pill:scale-110 transition-transform"></i>
+                                    <div>
+                                        <p class="text-[10px] xl:text-[11px] font-bold text-white relative z-10">Manipulasi Fizikal</p>
+                                        <p class="text-[9px] text-gray-400 relative z-10 group-hover/pill:text-gray-200 transition-colors">Aktiviti <strong>Mari Menguli</strong></p>
+                                    </div>
+                                    <i class="fas fa-external-link-alt text-[8px] text-assure-5/50 ml-auto mr-1 group-hover/pill:text-assure-5"></i>
+                                </div>
+                            </a>
+
+                            <!-- Respon Kognitif -> #step-10 (Uji Minda PBD) -->
+                            <a href="https://g-80575536-arch.github.io/portal-psv/#step-10" target="_blank" class="data-pill rounded-lg p-2 relative overflow-hidden group/pill block cursor-pointer transition-all hover:bg-assure-5/10 hover:border-assure-5/50">
+                                <div class="absolute left-0 top-0 bottom-0 w-1 bg-assure-5 transition-all group-hover/pill:w-full group-hover/pill:opacity-20"></div>
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-brain text-assure-5 group-hover/pill:scale-110 transition-transform"></i>
+                                    <div>
+                                        <p class="text-[10px] xl:text-[11px] font-bold text-white relative z-10">Respon Kognitif</p>
+                                        <p class="text-[9px] text-gray-400 relative z-10 group-hover/pill:text-gray-200 transition-colors">Menjawab <strong>Kuiz Interaktif</strong></p>
+                                    </div>
+                                    <i class="fas fa-external-link-alt text-[8px] text-assure-5/50 ml-auto mr-1 group-hover/pill:text-assure-5"></i>
+                                </div>
+                            </a>
+
+                        </div>
                     </div>
-                    <div class="p-2 xl:p-3 mt-auto border-t border-gray-700/50">
-                        <a href="https://g-80575536-arch.github.io/portal-psv/studio.html" target="_blank" class="flex items-center justify-center gap-2 w-full py-1.5 bg-assure-5/20 hover:bg-assure-5/40 text-assure-5 rounded transition-colors text-[9px] xl:text-xs font-semibold border border-assure-5/30">
-                            <i class="fas fa-link"></i> KE PAUTAN (STUDIO/AKTIVITI)
+                    <div class="p-2 xl:p-3 mt-auto bg-black/30 border-t border-white/5 rounded-b-[15px] card-content-3d">
+                        <a href="https://g-80575536-arch.github.io/portal-psv/#step-8" target="_blank" class="flex items-center justify-between w-full px-3 py-2 bg-assure-5/10 hover:bg-assure-5/30 text-assure-5 rounded-lg transition-colors border border-assure-5/30 group/btn">
+                            <span class="text-[9px] xl:text-[10px] font-bold tracking-wide">MARI MENGULI</span>
+                            <i class="fas fa-arrow-right text-[10px] group-hover/btn:translate-x-1 transition-transform"></i>
                         </a>
                     </div>
                 </div>
 
                 <!-- Kad 6: Evaluate -->
-                <div class="glass-card h-full hover:shadow-neon-6 border-t-4 border-t-assure-6">
-                    <div class="p-3 xl:p-4 flex-1 flex flex-col min-h-0">
+                <div class="glass-card card-6 hover:shadow-neon-6" data-card="6">
+                    <div class="p-3 xl:p-4 flex-1 flex flex-col min-h-0 relative z-10">
                         <div class="flex items-center gap-2 mb-2">
-                            <div class="w-8 h-8 xl:w-10 xl:h-10 rounded-full bg-assure-6 flex items-center justify-center text-sm xl:text-lg step-number shadow-lg shrink-0">6</div>
-                            <h2 class="text-xs xl:text-sm 2xl:text-base font-heading font-bold leading-tight">E – EVALUATE<br><span class="text-[9px] xl:text-[10px] font-normal text-gray-300">& REVISE</span></h2>
+                            <div class="w-8 h-8 xl:w-10 xl:h-10 rounded-full bg-assure-6 flex items-center justify-center text-sm xl:text-lg step-number shadow-lg shrink-0 pulse-glow">6</div>
+                            <h2 class="text-xs xl:text-sm 2xl:text-base font-heading font-bold leading-tight">E – EVALUATE<br><span class="text-[8px] xl:text-[9px] font-normal text-gray-300 block mt-1 tracking-widest uppercase">Evaluate & Revise</span></h2>
                         </div>
-                        <div class="flex justify-center my-2 xl:my-4 shrink-0">
-                            <i class="fas fa-chart-line text-3xl xl:text-4xl text-assure-6 opacity-80"></i>
+                        <div class="flex justify-center my-2 xl:my-4 shrink-0 hover:scale-110 transition-transform">
+                            <i class="fas fa-chart-line text-3xl xl:text-4xl text-assure-6 opacity-80 filter drop-shadow-[0_0_8px_rgba(21,101,192,0.8)]"></i>
                         </div>
-                        <ul class="space-y-1.5 xl:space-y-2 text-[10px] xl:text-xs 2xl:text-sm text-gray-300 flex-1 overflow-y-auto pr-1">
-                            <li class="flex items-start gap-1.5"><i class="fas fa-check-circle text-assure-6 mt-0.5 shrink-0"></i><span>Kuiz (Tahap faham)</span></li>
-                            <li class="flex items-start gap-1.5"><i class="fas fa-check-circle text-assure-6 mt-0.5 shrink-0"></i><span>Rekod PBD</span></li>
-                            <li class="flex items-start gap-1.5"><i class="fas fa-check-circle text-assure-6 mt-0.5 shrink-0"></i><span>Galeri Murid</span></li>
-                            <li class="flex items-start gap-1.5"><i class="fas fa-check-circle text-assure-6 mt-0.5 shrink-0"></i><span>Pentaksiran Formatif</span></li>
-                            <li class="flex items-start gap-1.5"><i class="fas fa-check-circle text-assure-6 mt-0.5 shrink-0"></i><span>Maklum Balas Guru</span></li>
-                        </ul>
+                        
+                        <!-- Data Blocks -->
+                        <div class="space-y-2 flex-1 overflow-y-auto pr-1">
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="data-pill rounded flex flex-col items-center justify-center p-2 text-center">
+                                    <i class="fas fa-clipboard-check text-assure-6 text-sm mb-1"></i>
+                                    <span class="text-[9px] leading-tight">Rekod PBD</span>
+                                </div>
+                                <div class="data-pill rounded flex flex-col items-center justify-center p-2 text-center">
+                                    <i class="fas fa-images text-assure-6 text-sm mb-1"></i>
+                                    <span class="text-[9px] leading-tight">Galeri Murid</span>
+                                </div>
+                                <div class="data-pill rounded flex flex-col items-center justify-center p-2 text-center">
+                                    <i class="fas fa-tasks text-assure-6 text-sm mb-1"></i>
+                                    <span class="text-[9px] leading-tight">P. Formatif</span>
+                                </div>
+                                <div class="data-pill rounded flex flex-col items-center justify-center p-2 text-center">
+                                    <i class="fas fa-comment-dots text-assure-6 text-sm mb-1"></i>
+                                    <span class="text-[9px] leading-tight">Maklum Balas</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="p-2 xl:p-3 mt-auto border-t border-gray-700/50">
-                        <a href="https://g-80575536-arch.github.io/portal-psv/kuiz.html" target="_blank" class="flex items-center justify-center gap-2 w-full py-1.5 bg-assure-6/20 hover:bg-assure-6/40 text-assure-6 rounded transition-colors text-[9px] xl:text-xs font-semibold border border-assure-6/30">
-                            <i class="fas fa-link"></i> KE PAUTAN (KUIZ/GALERI)
+                    <div class="p-2 xl:p-3 mt-auto bg-black/30 border-t border-white/5 rounded-b-[15px] card-content-3d">
+                        <a href="https://g-80575536-arch.github.io/portal-psv/#step-10" target="_blank" class="flex items-center justify-between w-full px-3 py-2 bg-assure-6/10 hover:bg-assure-6/30 text-assure-6 rounded-lg transition-colors border border-assure-6/30 group/btn">
+                            <span class="text-[9px] xl:text-[10px] font-bold tracking-wide">UJI MINDA PBD</span>
+                            <i class="fas fa-arrow-right text-[10px] group-hover/btn:translate-x-1 transition-transform"></i>
                         </a>
                     </div>
                 </div>
@@ -324,62 +497,66 @@
         </main>
 
         <!-- FOOTER / FLOW DIAGRAM (Bottom Section) -->
-        <footer class="w-full mt-4 xl:mt-6 shrink-0 relative z-10">
-            <div class="bg-gray-900/60 border border-gray-700/50 rounded-xl p-3 xl:p-4 backdrop-blur-sm flex flex-col xl:flex-row items-center justify-between gap-4">
+        <footer class="w-full mt-4 xl:mt-6 shrink-0 relative z-20 card-content-3d">
+            <div class="bg-gray-900/80 border border-gray-600/50 rounded-2xl p-3 xl:p-4 backdrop-blur-lg flex flex-col xl:flex-row items-center justify-between gap-4 shadow-2xl">
                 
-                <!-- Title & Flow -->
+                <!-- Title & Flow (Interactive) -->
                 <div class="flex-1 flex flex-col items-center xl:items-start w-full">
-                    <h3 class="text-[10px] xl:text-xs font-bold text-blue-300 mb-2 uppercase tracking-widest hidden xl:block">Aliran Pelaksanaan Portal (ASSURE)</h3>
-                    <div class="flex flex-wrap xl:flex-nowrap justify-center xl:justify-start items-center gap-2 xl:gap-4 w-full">
+                    <h3 class="text-[10px] xl:text-xs font-bold text-blue-300 mb-2 uppercase tracking-widest hidden xl:block">Interaktif: Halakan (Hover) pada aliran untuk lihat butiran</h3>
+                    <div class="flex flex-wrap xl:flex-nowrap justify-center xl:justify-start items-center gap-2 xl:gap-4 w-full" id="flowContainer">
                         
-                        <div class="flex items-center text-center">
-                            <div class="bg-gray-800 rounded p-1.5 xl:p-2 border border-gray-700"><i class="fas fa-users-viewfinder text-sm xl:text-xl text-assure-1"></i></div>
-                            <span class="text-[9px] xl:text-[10px] ml-2 text-gray-400 hidden xl:block text-left">A - Analyze<br>Learners</span>
+                        <!-- Flow Item 1 -->
+                        <div class="flow-item flex items-center text-center cursor-pointer transition-transform hover:scale-110" data-target="1">
+                            <div class="bg-gray-800 rounded p-1.5 xl:p-2 border border-assure-1/50 shadow-[0_0_10px_rgba(30,136,229,0.3)]"><i class="fas fa-users-viewfinder text-sm xl:text-xl text-assure-1"></i></div>
+                            <span class="text-[9px] xl:text-[10px] ml-2 text-gray-300 hidden xl:block text-left font-semibold">A - Analyze<br><span class="text-gray-500 font-normal">Learners</span></span>
                         </div>
-                        <i class="fas fa-arrow-right text-gray-600 text-xs hidden md:block"></i>
+                        <i class="fas fa-chevron-right text-gray-600 text-xs hidden md:block"></i>
                         
-                        <div class="flex items-center text-center">
-                            <div class="bg-gray-800 rounded p-1.5 xl:p-2 border border-gray-700"><i class="fas fa-bullseye text-sm xl:text-xl text-assure-2"></i></div>
-                            <span class="text-[9px] xl:text-[10px] ml-2 text-gray-400 hidden xl:block text-left">S - State<br>Objectives</span>
+                        <!-- Flow Item 2 -->
+                        <div class="flow-item flex items-center text-center cursor-pointer transition-transform hover:scale-110" data-target="2">
+                            <div class="bg-gray-800 rounded p-1.5 xl:p-2 border border-assure-2/50 shadow-[0_0_10px_rgba(142,36,170,0.3)]"><i class="fas fa-bullseye text-sm xl:text-xl text-assure-2"></i></div>
+                            <span class="text-[9px] xl:text-[10px] ml-2 text-gray-300 hidden xl:block text-left font-semibold">S - State<br><span class="text-gray-500 font-normal">Objectives</span></span>
                         </div>
-                        <i class="fas fa-arrow-right text-gray-600 text-xs hidden md:block"></i>
+                        <i class="fas fa-chevron-right text-gray-600 text-xs hidden md:block"></i>
                         
-                        <div class="flex items-center text-center">
-                            <div class="bg-gray-800 rounded p-1.5 xl:p-2 border border-gray-700"><i class="fas fa-photo-video text-sm xl:text-xl text-assure-3"></i></div>
-                            <span class="text-[9px] xl:text-[10px] ml-2 text-gray-400 hidden xl:block text-left">S - Select<br>Methods</span>
+                        <!-- Flow Item 3 -->
+                        <div class="flow-item flex items-center text-center cursor-pointer transition-transform hover:scale-110" data-target="3">
+                            <div class="bg-gray-800 rounded p-1.5 xl:p-2 border border-assure-3/50 shadow-[0_0_10px_rgba(0,137,123,0.3)]"><i class="fas fa-photo-video text-sm xl:text-xl text-assure-3"></i></div>
+                            <span class="text-[9px] xl:text-[10px] ml-2 text-gray-300 hidden xl:block text-left font-semibold">S - Select<br><span class="text-gray-500 font-normal">Methods</span></span>
                         </div>
-                        <i class="fas fa-arrow-right text-gray-600 text-xs hidden md:block"></i>
+                        <i class="fas fa-chevron-right text-gray-600 text-xs hidden md:block"></i>
                         
-                        <div class="flex items-center text-center">
-                            <div class="bg-gray-800 rounded p-1.5 xl:p-2 border border-gray-700"><i class="fas fa-box-open text-sm xl:text-xl text-assure-4"></i></div>
-                            <span class="text-[9px] xl:text-[10px] ml-2 text-gray-400 hidden xl:block text-left">U - Utilize<br>Media</span>
+                        <!-- Flow Item 4 -->
+                        <div class="flow-item flex items-center text-center cursor-pointer transition-transform hover:scale-110" data-target="4">
+                            <div class="bg-gray-800 rounded p-1.5 xl:p-2 border border-assure-4/50 shadow-[0_0_10px_rgba(251,192,45,0.3)]"><i class="fas fa-box-open text-sm xl:text-xl text-assure-4"></i></div>
+                            <span class="text-[9px] xl:text-[10px] ml-2 text-gray-300 hidden xl:block text-left font-semibold">U - Utilize<br><span class="text-gray-500 font-normal">Media</span></span>
                         </div>
-                        <i class="fas fa-arrow-right text-gray-600 text-xs hidden md:block"></i>
+                        <i class="fas fa-chevron-right text-gray-600 text-xs hidden md:block"></i>
                         
-                        <div class="flex items-center text-center">
-                            <div class="bg-gray-800 rounded p-1.5 xl:p-2 border border-gray-700"><i class="fas fa-hand-sparkles text-sm xl:text-xl text-assure-5"></i></div>
-                            <span class="text-[9px] xl:text-[10px] ml-2 text-gray-400 hidden xl:block text-left">R - Require<br>Participation</span>
+                        <!-- Flow Item 5 -->
+                        <div class="flow-item flex items-center text-center cursor-pointer transition-transform hover:scale-110" data-target="5">
+                            <div class="bg-gray-800 rounded p-1.5 xl:p-2 border border-assure-5/50 shadow-[0_0_10px_rgba(229,57,53,0.3)]"><i class="fas fa-hand-sparkles text-sm xl:text-xl text-assure-5"></i></div>
+                            <span class="text-[9px] xl:text-[10px] ml-2 text-gray-300 hidden xl:block text-left font-semibold">R - Require<br><span class="text-gray-500 font-normal">Participation</span></span>
                         </div>
-                        <i class="fas fa-arrow-right text-gray-600 text-xs hidden md:block"></i>
+                        <i class="fas fa-chevron-right text-gray-600 text-xs hidden md:block"></i>
                         
-                        <div class="flex items-center text-center">
-                            <div class="bg-gray-800 rounded p-1.5 xl:p-2 border border-gray-700"><i class="fas fa-chart-line text-sm xl:text-xl text-assure-6"></i></div>
-                            <span class="text-[9px] xl:text-[10px] ml-2 text-gray-400 hidden xl:block text-left">E - Evaluate<br>& Revise</span>
+                        <!-- Flow Item 6 -->
+                        <div class="flow-item flex items-center text-center cursor-pointer transition-transform hover:scale-110" data-target="6">
+                            <div class="bg-gray-800 rounded p-1.5 xl:p-2 border border-assure-6/50 shadow-[0_0_10px_rgba(21,101,192,0.3)]"><i class="fas fa-chart-line text-sm xl:text-xl text-assure-6"></i></div>
+                            <span class="text-[9px] xl:text-[10px] ml-2 text-gray-300 hidden xl:block text-left font-semibold">E - Evaluate<br><span class="text-gray-500 font-normal">& Revise</span></span>
                         </div>
 
                     </div>
                 </div>
 
                 <!-- Legend / Petunjuk -->
-                <div class="flex flex-col items-center xl:items-end justify-center shrink-0">
-                    <p class="text-[9px] xl:text-[10px] font-semibold text-blue-200 tracking-wider mb-2 text-center xl:text-right w-full">
-                        PORTAL INTERAKTIF, PEMBELAJARAN BERMAKNA, MURID CERIA & AKTIF!
+                <div class="flex flex-col items-center xl:items-end justify-center shrink-0 border-l border-white/10 pl-4">
+                    <p class="text-[9px] xl:text-[10px] font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 tracking-wider mb-2 text-center xl:text-right w-full">
+                        PEMBELAJARAN BERMAKNA, MURID CERIA & AKTIF!
                     </p>
-                    <div class="flex flex-wrap gap-3 text-[9px] xl:text-[10px] text-gray-400 bg-black/40 px-3 py-2 rounded-lg border border-gray-700">
-                        <span class="flex items-center gap-1"><i class="fas fa-link text-blue-400"></i> Pautan</span>
-                        <span class="flex items-center gap-1"><i class="fas fa-check-circle text-teal-400"></i> Ciri Utama</span>
-                        <span class="flex items-center gap-1"><i class="fas fa-play-circle text-pink-400"></i> Media</span>
-                        <span class="flex items-center gap-1"><i class="fas fa-chart-line text-purple-400"></i> Pentaksiran</span>
+                    <div class="flex flex-wrap justify-end gap-3 text-[9px] xl:text-[10px] text-gray-300">
+                        <span class="flex items-center gap-1 bg-black/40 px-2 py-1 rounded border border-gray-700"><i class="fas fa-external-link-alt text-blue-400"></i> Boleh Diklik</span>
+                        <span class="flex items-center gap-1 bg-black/40 px-2 py-1 rounded border border-gray-700"><i class="fas fa-mouse-pointer text-pink-400"></i> Interaktif</span>
                     </div>
                 </div>
             </div>
@@ -388,18 +565,72 @@
     </div> <!-- End Wrapper 16:9 -->
 
     <script>
-        // Animasi ringkas untuk kad
         document.addEventListener('DOMContentLoaded', () => {
             const cards = document.querySelectorAll('.glass-card');
+            const flowItems = document.querySelectorAll('.flow-item');
+
+            // 1. Animasi Masuk (Entry Animation)
             cards.forEach((card, index) => {
                 card.style.opacity = '0';
-                card.style.transform = 'translateY(15px)';
-                card.style.transition = 'all 0.4s ease-out';
+                card.style.transform = 'translateY(30px) scale(0.95)';
                 setTimeout(() => {
+                    card.style.transition = 'all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
                     card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, 100 * (index + 1));
+                    card.style.transform = 'translateY(0) scale(1)';
+                }, 150 * (index + 1));
             });
+
+            // 2. Interaksi Hover Footer -> Highlight Kad Atas
+            flowItems.forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    const targetId = item.getAttribute('data-target');
+                    cards.forEach(card => {
+                        if (card.getAttribute('data-card') === targetId) {
+                            card.classList.add('highlighted');
+                            card.classList.remove('dimmed');
+                        } else {
+                            card.classList.add('dimmed');
+                            card.classList.remove('highlighted');
+                        }
+                    });
+                });
+
+                item.addEventListener('mouseleave', () => {
+                    cards.forEach(card => {
+                        card.classList.remove('dimmed');
+                        card.classList.remove('highlighted');
+                    });
+                });
+            });
+
+            // 3. Kesan Tilt 3D pada Kad (Hanya Desktop)
+            if (window.innerWidth > 1024) {
+                cards.forEach(card => {
+                    card.addEventListener('mousemove', (e) => {
+                        if (card.classList.contains('dimmed')) return; // Jangan tilt jika digelapkan
+                        
+                        const rect = card.getBoundingClientRect();
+                        const x = e.clientX - rect.left; // x position within the element.
+                        const y = e.clientY - rect.top;  // y position within the element.
+                        
+                        const centerX = rect.width / 2;
+                        const centerY = rect.height / 2;
+                        
+                        const rotateX = ((y - centerY) / centerY) * -5; // max rotation 5 deg
+                        const rotateY = ((x - centerX) / centerX) * 5;
+
+                        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                        card.style.transition = 'none';
+                    });
+
+                    card.addEventListener('mouseleave', () => {
+                        if (!card.classList.contains('highlighted')) {
+                            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+                        }
+                        card.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                    });
+                });
+            }
         });
     </script>
 </body>
